@@ -9,11 +9,21 @@ variable (P Q R : Prop)
 
 theorem doubleneg_intro :
     P → ¬ ¬ P  := by
-  sorry
+  intro h
+  intro nh
+  apply nh h
 
 theorem doubleneg_elim :
     ¬ ¬ P → P  := by
-  sorry
+  intro h
+  by_cases Lem: P
+  case pos =>
+    assumption
+  case neg =>
+    have Boom : False := h Lem
+    contradiction
+
+
 
 theorem doubleneg_law :
     ¬ ¬ P ↔ P  := by
@@ -26,11 +36,28 @@ theorem doubleneg_law :
 
 theorem disj_comm :
     (P ∨ Q) → (Q ∨ P)  := by
-  sorry
+  intro hpq
+  rcases hpq with (hp | hq)
+  case inl =>
+    right
+    assumption
+  case inr =>
+    left
+    assumption
+
+
+
 
 theorem conj_comm :
     (P ∧ Q) → (Q ∧ P)  := by
-  sorry
+  intro h
+  rcases h with ⟨hp , hq⟩
+  constructor
+  case intro.left =>
+    exact hq
+  case intro.right =>
+    exact hp
+
 
 
 ------------------------------------------------
